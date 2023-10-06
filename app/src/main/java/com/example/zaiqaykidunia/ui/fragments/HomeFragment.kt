@@ -59,8 +59,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setupRecyclerView()
 
         mainRvAdapter.itemclickedlistener {
-//            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
-            findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
+            findNavController().navigate(action)
         }
     }
 
