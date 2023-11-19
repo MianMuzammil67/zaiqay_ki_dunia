@@ -6,41 +6,59 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.zaiqaykidunia.R
 import com.example.zaiqaykidunia.databinding.SampleItemBinding
 import com.example.zaiqaykidunia.network.Recipe
 
 class MainRvAdapter() : RecyclerView.Adapter<MainRvAdapter.ViewHolder>() {
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-return ViewHolder(SampleItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(
+            SampleItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentList = differ.currentList[position]
 
         holder.itemView.apply {
-            Glide.with(this).load(currentList.image).into(holder.binding.thumImage)
+            Glide.with(this).load(currentList.image).placeholder(R.drawable.progress_animation)
+                .into(holder.binding.thumImage)
             setOnClickListener {
-                _itemClicked?.let {it(currentList)  }
+                _itemClicked?.let { it(currentList) }
             }
         }
         holder.binding.apply {
             val time = currentList.readyInMinutes
             tvTittle.text = currentList.title
-            "$time Mins".also { tvTime.text = it }
+            "$time Mins".also {
+                tvTime.text = it
+                tvLikes.text = currentList.aggregateLikes.toString()
+
+                val health = currentList.veryHealthy
+                if (health) {
+                    tvHealthy.text = "Healthy"
+                }else {
+                    tvHealthy.text = "Not Healthy"
+                }
+
+            }
         }
     }
-   private var _itemClicked :((Recipe)-> Unit)? = null
-    fun itemclickedlistener(listener : (Recipe)-> Unit){
+
+    private var _itemClicked: ((Recipe) -> Unit)? = null
+    fun itemclickedlistener(listener: (Recipe) -> Unit) {
         _itemClicked = listener
     }
-
     override fun getItemCount(): Int {
-       return differ.currentList.size
+        return differ.currentList.size
     }
+
     private val diffUtillCallback = object : DiffUtil.ItemCallback<Recipe>() {
         override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
-            return oldItem.title == newItem.title
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
@@ -48,6 +66,7 @@ return ViewHolder(SampleItemBinding.inflate(LayoutInflater.from(parent.context),
         }
     }
     val differ = AsyncListDiffer(this, diffUtillCallback)
-   inner class ViewHolder(val binding: SampleItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    inner class ViewHolder(val binding: SampleItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
 

@@ -11,23 +11,17 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_detailFragment"
-            app:destination="@id/detailFragment"
-                        />
+            android:id="@+id/action_homeFragment_to_detailActivity"
+            app:destination="@id/detailActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.example.zaiqaykidunia.ui.fragments.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.example.zaiqaykidunia.ui.fragments.SavedFragment"
         android:label="fragment_saved"
         tools:layout="@layout/fragment_saved" >
         <action
-            android:id="@+id/action_savedFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            android:id="@+id/action_savedFragment_to_detailActivity"
+            app:destination="@id/detailActivity" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -35,7 +29,17 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_searchFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            android:id="@+id/action_searchFragment_to_detailActivity"
+            app:destination="@id/detailActivity" />
     </fragment>
+    <activity
+        android:id="@+id/detailActivity"
+        android:name="com.example.zaiqaykidunia.ui.DetailActivity"
+        android:label="activity_detail"
+        tools:layout="@layout/activity_detail" >
+
+        <argument
+            android:name="recipe"
+            app:argType="com.example.zaiqaykidunia.network.Recipe" />
+    </activity>
 </navigation>

@@ -9,9 +9,18 @@ import retrofit2.http.Query
 interface RecipeApi {
 
     @GET("recipes/random")
-    suspend fun getRecipies(
+    suspend fun getRecipes(
         @Query("tags")
         tags : String,
+        @Query("number")
+        number : Int,
+        @Query("apiKey")
+        apiKey : String = API_KEY
+    ):Response<RecipeApiResponse>
+    @GET("recipes/random")
+    suspend fun searchRecipes(
+        @Query("query")
+        query : String,
         @Query("number")
         number : Int,
         @Query("apiKey")

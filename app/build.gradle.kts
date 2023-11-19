@@ -4,9 +4,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
-    id ("kotlin-parcelize")
-
-
+    id("kotlin-parcelize")
 
 }
 
@@ -40,7 +38,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -59,8 +57,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0" )
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0" )
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
@@ -68,12 +66,21 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 //glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 //hilt
     implementation("com.google.dagger:hilt-android:2.48")
     ksp("com.google.dagger:hilt-android-compiler:2.48")
-    // navGraph
+// navGraph
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+// Room database
+    val room_version = "2.5.2"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+// lottie animation
+    implementation ("com.airbnb.android:lottie:6.1.0")
+
 
 }

@@ -2,8 +2,15 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ZaiqayKiDunia" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/_yellow</item>
     </style>
 
     <style name="Theme.ZaiqayKiDunia" parent="Base.Theme.ZaiqayKiDunia" />
+    
+    
+    <style name="TEXT">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <color name="_yellow">#FF5B22</color>
 </resources>

@@ -5,18 +5,18 @@
         android:id="@+id/homeFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/home"
-        android:title="Home" />
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
     <item
         android:id="@+id/searchFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/search"
-        android:title="search" />
+        android:title="@string/ic_search" />
     <item
         android:id="@+id/savedFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/search"
-        android:title="saved" />
+        android:icon="@drawable/ic_saved"
+        android:title="@string/saved" />
 </menu>

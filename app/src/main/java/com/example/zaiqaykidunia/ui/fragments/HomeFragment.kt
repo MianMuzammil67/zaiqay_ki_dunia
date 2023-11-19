@@ -14,7 +14,9 @@ import com.example.zaiqaykidunia.R
 import com.example.zaiqaykidunia.databinding.FragmentHomeBinding
 import com.example.zaiqaykidunia.ui.adapter.MainRvAdapter
 import com.example.zaiqaykidunia.ui.viewModel.MainViewModel
+import com.example.zaiqaykidunia.utils.Constants
 import com.example.zaiqaykidunia.utils.Resource
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,24 +30,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 
-        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.getRecipes("main course", 10)
+        if (!Constants.isNetworkAvailable(requireContext())){
+        activity?.let {
+            Snackbar.make(it.findViewById(android.R.id.content),"NO INTERNET CONNECTION!",Snackbar.LENGTH_LONG).apply {
+                setAction("OK"){
+                }
+                show()
+            }
+        }}
 
+        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel.getRecipes("main course", 30)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.recipeFlow.collect { response ->
                     when (response) {
                         is Resource.Success -> {
                             hideProgressBar()
-                            response.data?.let {
-                                mainRvAdapter.differ.submitList(it.recipes)
+                            response.data?.let {apiResponse->
+                                mainRvAdapter.differ.submitList(apiResponse.recipes)
+                                viewModel.saveRecipes(apiResponse.recipes)
                             }
                         }
-
                         is Resource.Loading -> {
                             showProgressBar()
                         }
-
                         is Resource.Error -> {
                             hideProgressBar()
                             response.data?.let {
@@ -57,28 +66,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         setupRecyclerView()
-
-        mainRvAdapter.itemclickedlistener {
-//            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
-            findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+        mainRvAdapter.itemclickedlistener {recipe->
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailActivity(recipe)
+           findNavController().navigate(action)
         }
     }
-
-
     private fun setupRecyclerView() {
         mainRvAdapter = MainRvAdapter()
         binding.rvHome.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = mainRvAdapter
         }
-
     }
-
     private fun showProgressBar() {
         binding.progressBar.visibility = View.VISIBLE
     }
     private fun hideProgressBar() {
         binding.progressBar.visibility = View.INVISIBLE
     }
+
 
 }
